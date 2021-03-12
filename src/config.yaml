@@ -1,0 +1,5 @@
+app:
+  logging_config_path: src/logging_debug.conf
+  is_unzipped: True
+  source_zip_dir_path: "/Volumes/HDCZ-UT/Google Drive/GooglePhotos"
+  
