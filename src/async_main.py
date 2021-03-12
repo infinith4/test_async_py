@@ -32,4 +32,6 @@ if __name__ == "__main__":
         loop = asyncio.get_event_loop()
 
         logger.info('=== 並列実行数制限なし ===')
-        loop.run_until_complete(asyncio.gather(*[do_unzip(zip_file_path, logger) for zip_file_path in sorted(zip_glob_list)]))
+        loop.run_until_complete(
+            asyncio.gather(*[do_unzip(zip_file_path, logger) for zip_file_path in sorted(zip_glob_list)])
+            )
