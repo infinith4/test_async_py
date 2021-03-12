@@ -1,17 +1,32 @@
 import os
 import glob
+import asyncio
+import functools
 
 from log_utils.logger import Logger
 from format_utils.yaml_config import YamlConfig
 from archive_utils.zip_util import ZipUtil
+# https://dev.classmethod.jp/articles/python-asyncio/
 
-def do_unzip(zip_file_path: str, logger: Logger):
+# async def sleeping(sec):
+#     loop = asyncio.get_event_loop()
+#     func = functools.partial(time.sleep, sec)
+#     print(f'start:  {sec}秒待つよ')
+#     await loop.run_in_executor(None, func)
+#     print(f'finish: {sec}秒待ったよ')
+
+async def do_unzip(zip_file_path: str, logger: Logger):
     logger.info(f"zip_file_path: {zip_file_path}")
     zip_basename_without_ext: str = os.path.splitext(os.path.basename(zip_file_path))[0]
     zip_dir_path: str = os.path.dirname(zip_file_path)
     dist_zip_dir_path: str = os.path.join(zip_dir_path, f"test_{zip_basename_without_ext}")
     zip_util = ZipUtil(zip_file_path, dist_zip_dir_path)
-    zip_util.unzip()
+    loop = asyncio.get_event_loop()
+    func = functools.partial(zip_util.unzip, 1)
+    print(f'start: unzip; zip_file_path: {zip_file_path} dist_zip_dir_path: {dist_zip_dir_path}')
+    await loop.run_in_executor(None, func)
+    print(f'end: unzip; zip_file_path: {zip_file_path} dist_zip_dir_path: {dist_zip_dir_path}')
+
 
 if __name__ == "__main__":
     current_dir_path: str = os.path.dirname(__file__)
