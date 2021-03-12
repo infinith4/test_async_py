@@ -1,7 +1,9 @@
 import os
+import glob
 
 from log_utils.logger import Logger
 from format_utils.yaml_config import YamlConfig
+from archive_utils.zip_util import ZipUtil
 
 def do_unzip(zip_file_path: str, logger: Logger):
     logger.info(f"zip_file_path: {zip_file_path}")
@@ -27,5 +29,7 @@ if __name__ == "__main__":
     zip_glob_list = glob.glob(source_zip_dir_path + "/*.zip")
     is_unzipped: bool = bool(app_config["is_unzipped"])
     if(is_unzipped):
-        for zip_file_path in sorted(zip_glob_list):
-            do_unzip(zip_file_path)
+        loop = asyncio.get_event_loop()
+
+        looger.info('=== 並列実行数制限なし ===')
+        loop.run_until_complete(asyncio.gather(*[do_unzip(zip_file_path, logger) for zip_file_path in sorted(zip_glob_list)]))
