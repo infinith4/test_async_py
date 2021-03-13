@@ -19,7 +19,7 @@ async def do_unzip(zip_file_path: str, logger: Logger):
     logger.info(f"zip_file_path: {zip_file_path}")
     zip_basename_without_ext: str = os.path.splitext(os.path.basename(zip_file_path))[0]
     zip_dir_path: str = os.path.dirname(zip_file_path)
-    dist_zip_dir_path: str = os.path.join(zip_dir_path, f"test_{zip_basename_without_ext}")
+    dist_zip_dir_path: str = os.path.join(zip_dir_path, f"{zip_basename_without_ext}")
     zip_util = ZipUtil(zip_file_path, dist_zip_dir_path)
     loop = asyncio.get_event_loop()
     func = functools.partial(zip_util.unzip, 1)

@@ -31,3 +31,14 @@ if __name__ == "__main__":
     if(is_unzipped):
         for zip_file_path in sorted(zip_glob_list):
             do_unzip(zip_file_path)
+
+    #search_format = "testzip/test/**/*"  #"testzip/takeout-20210220T154418Z-*/**/*"
+    search_format = "testzip/takeout-20210220T154418Z-*/**/*"
+    file_glob_list = glob.glob(os.path.join(source_zip_dir_path, search_format), recursive=True)
+    #logger.info(f"len(file_glob_list): {len(file_glob_list)};")
+
+    # for file_name in file_glob_list:
+    #     logger.info(file_name)
+
+    logger.info(sum(os.path.isfile(file_name) for file_name in file_glob_list))
+    
